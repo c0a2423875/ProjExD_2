@@ -32,7 +32,7 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
 
 
 
-def gameover(screen: pg.Surface) -> None:
+def gameover(screen: pg.Surface) -> None:    #  演習１
     fonto = pg.font.Font(None, 80)
     
     img = pg.image.load("fig/3.png")
@@ -55,7 +55,18 @@ def gameover(screen: pg.Surface) -> None:
 
     pg.display.update()
     time.sleep(5)
+
+
+def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:  #  演習２
+    tmr = 5000
     
+    sbb_accs = [a for a in range(1, 11)]
+    for r in range(1, 11):
+        bb_img = pg.Surface((20*r, 20*r))
+        pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
+
+
+        return
     
 
 def main():
@@ -75,6 +86,8 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     vx, vy = +5, +5
+    
+    
     
 
 
@@ -117,6 +130,11 @@ def main():
             vx *= -1
         if not tate: #  上下どちらか
             vy *= -1
+
+        bb_imgs, bb_accs = init_bb_imgs()
+        avx = vx*bb_accs[min(tmr//500, 9)]
+        bb_img = bb_imgs[min(tmr//500, 9)]
+
         screen.blit(bb_img, bb_rct)  #爆弾の描画
         pg.display.update()
         tmr += 1
