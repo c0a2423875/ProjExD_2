@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+import time
 import pygame as pg
 
 
@@ -12,6 +13,8 @@ DELTA = {
     pg.K_RIGHT: (+5, 0),
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+
 
 def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     """
@@ -28,6 +31,32 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     return yoko, tate
 
 
+
+def gameover(screen: pg.Surface) -> None:
+    fonto = pg.font.Font(None, 80)
+    
+    img = pg.image.load("fig/3.png")
+    sikaku = pg.Surface((WIDTH, HEIGHT))
+    pg.draw.rect(sikaku, (0, 0, 0), pg.Rect(0, 0, WIDTH, HEIGHT))
+    sikaku.set_alpha(100)
+    screen.blit(sikaku, [0, 0])
+    img2 = pg.image.load("fig/8.png")
+    img2_rct = img2.get_rect()
+    img2_rct.center = WIDTH/4, HEIGHT/2
+    img2_rct2 = img2.get_rect()
+    img2_rct2.center = WIDTH/1.35, HEIGHT/2
+    txt = fonto.render("GameOver", True, (255, 255, 255))
+    txt_rct = txt.get_rect()
+    txt_rct.center = WIDTH/2, HEIGHT/2
+
+    screen.blit(img2, img2_rct)
+    screen.blit(img2, img2_rct2)
+    screen.blit(txt, txt_rct)
+
+    pg.display.update()
+    time.sleep(5)
+    
+    
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -46,6 +75,10 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     vx, vy = +5, +5
+    
+
+
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -53,8 +86,10 @@ def main():
         screen.blit(bg_img, [0, 0]) 
 
         if kk_rct.colliderect(bb_rct):  #  こうかとんRectと爆弾Rectが重なったら
-            print("Game Over")
+            gameover(screen)
+            
             return
+            
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
