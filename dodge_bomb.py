@@ -42,7 +42,7 @@ def main():
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
     bb_rct = bb_img.get_rect()
     bb_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
-
+    bb_img.set_colorkey((0, 0, 0))
     clock = pg.time.Clock()
     tmr = 0
     vx, vy = +5, +5
@@ -51,6 +51,10 @@ def main():
             if event.type == pg.QUIT: 
                 return
         screen.blit(bg_img, [0, 0]) 
+
+        if kk_rct.colliderect(bb_rct):  #  こうかとんRectと爆弾Rectが重なったら
+            print("Game Over")
+            return
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
