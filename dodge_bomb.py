@@ -59,7 +59,6 @@ def gameover(screen: pg.Surface) -> None:    #  演習１
 
 def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:  #  演習２
     tmr = 5000
-    
     sbb_accs = [a for a in range(1, 11)]
     for r in range(1, 11):
         bb_img = pg.Surface((20*r, 20*r))
